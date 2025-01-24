@@ -100,7 +100,7 @@ def check_accuracy(loader, model):
             y = y.to(device = device)
 
             scores = model(x)
-            _, num_predictions = scores.max(1)
+            _, predictions = scores.max(1)
             num_correct += (predictions == y).sum()
             num_samples += predictions.size(0)
 
@@ -109,8 +109,8 @@ def check_accuracy(loader, model):
         )
     model.train()
 
-    print('Checking accuracy on training set')
-    check_accuracy(train_loader, model)
+print('Checking accuracy on training set')
+check_accuracy(train_loader, model)
 
-    print('checking accuracy on test set')
-    check_accuracy(test_loader, model)
+print('checking accuracy on test set')
+check_accuracy(test_loader, model)
