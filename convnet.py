@@ -56,3 +56,4 @@ model.compile(loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
 
 model.fit(x_train, y_train, batch_size=64, epochs=10, verbose = 2)
 model.evaluate(x_test, y_test, batch_size=64, verbose=2)
+
