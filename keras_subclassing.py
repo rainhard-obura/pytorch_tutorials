@@ -73,13 +73,11 @@ base_output = model.output
 output = layers.Dense(10)(layers.Flatten()(base_output))
 model = keras.Model(inputs=base_input, outputs=output)
 
-
 model.compile(
     optimizer = keras.optimizers.Adam(),
     loss = keras.losses.SparseCategoricalCrossentropy(from_logits = True),
     metrics = ['accuracy']
 )
-
 model.fit(x_train, y_train, batch_size=64, epochs = 1, verbose = 2)
 model.evaluate(x_test, y_test,batch_size=32, verbose = 2)
 
