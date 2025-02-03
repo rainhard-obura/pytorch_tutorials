@@ -11,17 +11,60 @@ from tensorflow.keras.datasets import mnist
 x_train = x_train.reshape(-1, 28, 28, 1).astype('float32') / 255.0
 x_test = x_test.reshape(-1, 28, 28, 1).astype('float32') / 255.0
 
-class MyModel(keras.Model):
+class Dense(layers.Layer):
+    def __init__(self, units, input_dim):
+        super(Dense, self).__init__()
+        self.w = self.add_weight(
+            name = 'w',
+            shape = (input_dim, units)
+            initializer ='random_normal'
+            trainable = True
+        )
+        self.b = self.add_weight(
+            name='b', shape =(units,), initializer='zeros', trainable=True
+        )
+
+    def call(self, inputs):
+        return tf.matmul(inputs, self.w) + self.b
+
+
+class Dense(layers.Layer):
+    def __init__(self, units):
+        super(Dense, self).__init__()
+        self.units = units
+
+    def build(self, input_shape):
+        self.w = self.add_weight(
+            name='w',
+            shape=(input_shape[-1], self.units),
+            initializer = 'random_normal',
+            trainable=True,
+        )
+        self.b = self.add_weight(
+            name ='b', shape = (self.units, ), initializer='random_normal',
+        )
+    def call(self, inputs):
+        return tf.matmul(inputs, self.w) + self.b
+
+
+class MyReLU(layers.Layer):
+    def __init__(self):
+        super(MyReLU, self).__init__()
+
+    def call(self, x):
+        return math.maximum(x, 0)
+
+class MyModel(Model):
     def __init__(self, num_classes=10):
         super(MyModel, self).__init__()
-        self.flatten = layers.Flatten()
-        self.dense1 = layers.Dense(64, activation ='relu')
-        self.dense2 = layers.Dense(num_classes)
+        self.dense1 = Dense(64)
+        self.dense2 = Dense(num_classes)
+        self.relu = MyReLU()
 
-    def call(self, input_tensor):
-        x = self.flatten(input_tensor)
-        x = self.dense1(x)
+    def call(self, x):
+        x = self.relu(self.dense1(x))
         return self.dense2(x)
+
 
 model = MyModel()
 model.compile(
