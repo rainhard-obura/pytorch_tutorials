@@ -83,3 +83,22 @@ def AlexNet(input_shape: typing.Tuple[int], classes:int=1000) -> Model:
         activation = "relu",
         padding = "same",
     )(X)
+    X = MaxPooling2D(pool_size=(3, 3), strides=(2, 2))(X)
+    X = Lambda(tf.nn.local_response_normalization)(X)
+
+    # NOTE: layer 6-7 is fully-connected layers
+    # layer 6
+    X = Flatten()(X)
+    X = Dense(units=4096, activation='relu')(X)
+    X = Dropout(0.5)(X)
+
+    # layer 7
+    X = Dense(units=4096, activation='relu')(X)
+    X = Dropout(0.5)(X)
+
+    # layer 8 (classification layer)
+    # use sigmoid if binary classification and softmax if multiclass classification
+    X = Dense(units=classes, activation="softmax")(X)
+
+    model = Model(inputs=X_input, outputs=X, name="AlexNet")
+    return model
