@@ -1,3 +1,11 @@
+import os
+
+# Set the environment variable before importing any TensorFlow-related modules
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
+# Now import TensorFlow or any other libraries
+import tensorflow as tf
+
 from tensorflow.keras.layers import (
     Conv2D,
     Dense,
@@ -9,12 +17,10 @@ from tensorflow.keras.layers import (
 )
 
 from tensorflow.keras import Model
-import tensorflow as tf
 import typing
 
-@tf.function
 
-def AlexNet(input_shape: typing.Tuple[int], classes:int=1000) -> Model:
+def AlexNet(input_shape: typing.Tuple[int, int, int], classes:int=1000) -> Model:
     '''
     Implementation of the AlexNet architecture
 
