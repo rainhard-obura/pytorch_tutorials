@@ -122,7 +122,6 @@ def inception_block(
     # concat by channel/filter
     return concatenate(inputs = [conv_1x1, conv_3x3, conv_5x5, pool_projection], axis = 3)
 
-@tf.function
 def auxiliary_block(
     X: tf.Tensor,
     classes: int,
