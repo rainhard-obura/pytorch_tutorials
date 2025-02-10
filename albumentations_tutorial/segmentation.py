@@ -4,10 +4,16 @@ import numpy as np
 from utils import plot_examples
 from PIL import Image
 
-image = Image.open("images/elon.jpeg")
-mask = Image.open("images/mask.jpeg")
-mask2 = Image.open("images/second_mask.jpeg")
+# Open images and convert to numpy arrays
+image = np.array(Image.open("images/elon.jpeg"))
+mask = np.array(Image.open("images/mask.jpeg"))
+mask2 = np.array(Image.open("images/second_mask.jpeg"))
 
+# Ensure masks have the same dimensions as the image
+mask = cv2.resize(mask, (image.shape[1], image.shape[0]))  # Resize to match image
+mask2 = cv2.resize(mask2, (image.shape[1], image.shape[0]))  # Resize to match image
+
+# Define the transformation
 transform = A.Compose(
     [
         A.Resize(width=1920, height=1080),
@@ -23,15 +29,16 @@ transform = A.Compose(
     ]
 )
 
+# Apply transformations
 images_list = [image]
-image = np.array(image)
-mask = np.array(mask) # np.asarray(mask), np.array(mask)
-mask2 = np.array(mask2)
 for i in range(4):
     augmentations = transform(image=image, masks=[mask, mask2])
     augmented_img = augmentations["image"]
     augmented_masks = augmentations["masks"]
+
     images_list.append(augmented_img)
     images_list.append(augmented_masks[0])
     images_list.append(augmented_masks[1])
+
+# Plot the results
 plot_examples(images_list)
