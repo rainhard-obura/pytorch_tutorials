@@ -35,7 +35,6 @@ class ImageFolder(Dataset):
             image = augmentations['image']
 
         return image, label
-
 transform = A.Compose(
     [
         A.Resize(width = 1920, height = 1080),
