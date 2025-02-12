@@ -28,5 +28,15 @@ class block(nn.Module):
             kernel_size=3,
             stride=stride,
             padding = 1,
-            bias = False
+            bias = False,
         )
+        self.bn2 = nn.BatchNorm2d(intermediate_channels)
+        self.conv3 = nn.Conv2d(
+            intermediate_channels,
+            intermediate_channels * self.expansion,
+            kernel_size =1,
+            stride = 1,
+            padding = 0,
+            bias = False,
+        )
+        
