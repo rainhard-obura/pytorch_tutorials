@@ -21,3 +21,12 @@ class block(nn.Module):
             padding = 0,
             bias = False
         )
+        self.bn1 = nn.BatchNorm2d(intermediate_channels)
+        self.conv2 = nn.Conv2d(
+            intermediate_channels,
+            intermediate_channels,
+            kernel_size=3,
+            stride=stride,
+            padding = 1,
+            bias = False
+        )
