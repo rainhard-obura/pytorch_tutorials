@@ -39,4 +39,7 @@ class block(nn.Module):
             padding = 0,
             bias = False,
         )
-        
+        self.bn3 = nn.BatchNorm2d(intermediate_channels * self.expansion)
+        self.relu = nn.ReLU()
+        self.identity_downsample = identity_downsample
+        self.stride = stride 
