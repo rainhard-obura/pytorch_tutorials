@@ -17,7 +17,7 @@ def get_loader(root_dir, batch_size):
     class_weights = []
 
 # Loop through each subdirectory and calculate the class weight
-# that is 1 / le(files) in that subdirectory
+# that is 1 / len(files) in that subdirectory
 
     for subdir in subdirectories:
         files = os.listdir(os.path.join(root_dir, sub_dir))
@@ -51,4 +51,4 @@ def main()
 if __name__ == '__main__':
     main()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
