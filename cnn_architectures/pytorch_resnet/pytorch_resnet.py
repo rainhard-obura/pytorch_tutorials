@@ -148,3 +148,13 @@ def ResNet101(img_channel=3, num_classes=1000):
 def ResNet152(img_channel=3, num_classes=1000):
     return ResNet(block,[3,8,36,3], img_channel, num_classes)
 
+def test():
+    BATCH_SIZE = 4
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    net = ResNet101(3,1000).to(device)
+    y = net(torch.randn(BATCH_SIZE, 3224, 224)).to(device)
+    assert y.size() == torch.Size([BATCH_SIZE,1000])
+    print(y.size())
+
+if __name__ == '__main__':
+    test()
